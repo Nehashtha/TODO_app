@@ -50,13 +50,14 @@ def update_serial(serial):
     db = sqlite3.connect('TODO.db')
     cursor = db.cursor()
     sql = """UPDATE TODO SET item_description=?, time=? WHERE serial=?"""
-    item_description=request.json["item_description"]
-    time=request.json["time"]
+    item_description = request.json["item_description"]
+    time = request.json["time"]
     updated_TODO={
-        "item_description":item_description,
-        "time":time,
+        "serial": serial,
+        "item_description" : item_description,
+        "time" : time,
     }
-    cursor.execute(sql, (item_description,time))
+    cursor.execute(sql, (serial, item_description,time))
     db.commit()
     return jsonify(updated_TODO)
 
@@ -69,7 +70,7 @@ def delete_serial(serial):
     sql="""DELETE FROM TODO WHERE serial=?"""
     cursor.execute(sql,(serial,))
     db.commit()
-    return "Id is deleted"
+    return "data is deleted"
 
 if __name__=='__main__':
     app.run(debug=True, threaded=True)
